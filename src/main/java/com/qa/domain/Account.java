@@ -10,7 +10,7 @@ public class Account {
 	
 	@GeneratedValue
 	@Id
-	private Long id;
+	private static Long id;
 	@Column(length=20)
 	private String firstName;
 	@Column(length=20)
@@ -18,7 +18,8 @@ public class Account {
 	@Column(length=20)
 	private String accountNumber;
 
-	public Account(String firstName, String secondName, String accountNumber) {
+	public Account(Long id, String firstName, String secondName, String accountNumber) {
+		this.id = id;
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.accountNumber = accountNumber;
@@ -46,6 +47,14 @@ public class Account {
 
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
+	}
+	
+	public static Long getID () {
+		return id;
+	}
+
+	public void setID (Long id) {
+		this.id = id;
 	}
 
 }
