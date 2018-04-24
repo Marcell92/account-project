@@ -45,12 +45,14 @@ public class AccountRepository {
 	}
 
 	@Transactional(REQUIRED)
-	public String deleteAnAccount(Long id) {
+	public String deleteAnAccount(String account) {
 
-		boolean itExists = findAnAccount(id) != null;
+		Account existingAccount = jsonutil.getObjectForJSON(account, Account.class);
+
+		boolean itExists = existingAccount != null;
 
 		if (itExists) {
-			em.remove(em.getReference(Account.class, id));
+			em.remove(existingAccount);
 
 			return "{\"message\": \"the account has been deleted\"}";
 		}
@@ -69,7 +71,7 @@ public class AccountRepository {
 		boolean itExists = findAnAccount(newAccount.getId()) != null;
 		if (itExists) {
 
-			return "{\"message\": \"the account exists so it could only be updated\"}";
+			return "{\"message\": \"the account exists so it could only be updated but not created\"}";
 
 		}
 
@@ -84,9 +86,10 @@ public class AccountRepository {
 	@Transactional(REQUIRED)
 	public String updateAnAccount(Long id, String account) {
 
-		Account oldaccount = jsonutil.getObjectForJSON(account, Account.class);
+		Account updatedaccount = jsonutil.getObjectForJSON(account, Account.class);
+		Account oldaccount = em.find(Account.class, id);
 
-		boolean itExists = findAnAccount(oldaccount.getId()) != null;
+		boolean itExists = updatedaccount != null;
 		if (itExists) {
 
 			em.merge(oldaccount);
