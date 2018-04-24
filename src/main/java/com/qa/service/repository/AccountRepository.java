@@ -1,5 +1,6 @@
 package com.qa.service.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,13 +20,21 @@ public class AccountRepository {
 	@PersistenceContext(unitName = "primary") // the name we specified in the persistence file
 	private EntityManager em;
 
+	public EntityManager getEm() {
+		return em;
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
 	@Inject
 	private JSONUtil jsonutil;
 
 	@SuppressWarnings("unchecked")
 	public String findAllAccounts() {
-		Query query = em.createQuery("SELECT a FROM Account a ORDER BY a.firstname DESC", Account.class);
-		List<Account> accounts = (List<Account>) query.getResultList();
+		Query query = em.createQuery("SELECT a FROM Account a ORDER BY a.firstname DESC");
+		Collection<Account> accounts = (Collection<Account>) query.getResultList();
 		return jsonutil.getJSONForObject(accounts);
 	}
 
@@ -53,7 +62,7 @@ public class AccountRepository {
 	}
 
 	@Transactional(REQUIRED)
-	public String createAnAccount(String account) {
+	public String createAnAccount(Long id, String account) {
 
 		Account newAccount = jsonutil.getObjectForJSON(account, Account.class);
 
@@ -67,13 +76,13 @@ public class AccountRepository {
 		else {
 			em.persist(newAccount);
 
-			return "{\"message\": \"the account has been added\"}";
+			return "{\"message\": \"the account has been successfully added\"}";
 		}
 
 	}
 
 	@Transactional(REQUIRED)
-	public String updateAnAccount(String account) {
+	public String updateAnAccount(Long id, String account) {
 
 		Account oldaccount = jsonutil.getObjectForJSON(account, Account.class);
 
@@ -91,6 +100,14 @@ public class AccountRepository {
 			return "{\"message\": \"the account doesn't exist so it couldn't be updated\"}";
 		}
 
+	}
+	
+	public JSONUtil getJsonutil() {
+		return jsonutil;
+	}
+
+	public void setJsonutil(JSONUtil jsonutil) {
+		this.jsonutil = jsonutil;
 	}
 
 }

@@ -18,9 +18,9 @@ public class Account {
 	@Column(length=20)
 	private String accountNumber;
 
-	public Account(Long id, String firstName, String secondName, String accountNumber) {
+	public Account(String firstName, String secondName, String accountNumber) {
 		
-		this.id = id;
+		
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.accountNumber = accountNumber;
