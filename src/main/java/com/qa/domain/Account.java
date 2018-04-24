@@ -19,6 +19,8 @@ public class Account {
 	private String accountNumber;
 
 	public Account(String firstName, String secondName, String accountNumber) {
+		
+		
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.accountNumber = accountNumber;
@@ -47,5 +49,13 @@ public class Account {
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
+	
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 }
