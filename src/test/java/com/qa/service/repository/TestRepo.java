@@ -22,45 +22,45 @@ import org.junit.Test;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestRepo {
-	
+
 	@InjectMocks
 	private AccountRepository accountrepository;
-	
+
 	@Mock
 	private EntityManager em;
-	
+
 	@Mock
 	private Query query;
-	
+
 	private JSONUtil jsonutil;
-	
+
 	private static final String mockList = "[{\"firstName\":\"Joe\",\"secondName\":\"Bloggs\",\"accountNumber\":\"1234\"}]";
 	private static final String mockObject = "{\"firstName\":\"Joe\",\"secondName\":\"Bloggs\",\"accountNumber\":\"1234\"}";
-	
+
 	@Before
-	
-	public void pre() {	
-		
+
+	public void pre() {
+
 		accountrepository.setEm(em);
 		jsonutil = new JSONUtil();
 		accountrepository.setJsonutil(jsonutil);
-		
+
 	}
 
 	@Test
 	public void testFindAllAccounts() {
-		
+
 		Mockito.when(em.createQuery(Mockito.anyString())).thenReturn(query);
 		List<Account> accounts = new ArrayList<Account>();
 		accounts.add(new Account("Joe", "Bloggs", "1234"));
 		Mockito.when(query.getResultList()).thenReturn(accounts);
 		assertEquals(mockList, accountrepository.findAllAccounts());
-		
+
 	}
-	
+
 	@Test
 	public void testCreateAccount() {
-		String expectedAnswer = accountrepository.createAnAccount(1L, mockObject);
+		String expectedAnswer = accountrepository.createAnAccount(mockObject);
 		assertEquals(expectedAnswer, "{\"message\": \"the account has been successfully added\"}");
 	}
 
@@ -69,7 +69,7 @@ public class TestRepo {
 		String expectedAnswer = accountrepository.updateAnAccount(1L, mockObject);
 		assertEquals(expectedAnswer, "{\"message\": \"the account has been updated successfully\"}");
 	}
-	
+
 	@Test
 	public void testUpdateAccountFail() {
 		String expectedAnswer = accountrepository.updateAnAccount(1L, null);
@@ -81,11 +81,11 @@ public class TestRepo {
 		String expectedAnswer = accountrepository.deleteAnAccount(null);
 		assertEquals(expectedAnswer, "{\"message\": \"the account doesn't exist so it couldn't be deleted\"}");
 	}
-	
+
 	@Test
 	public void testDeleteAccount() {
 		String expectedAnswer = accountrepository.deleteAnAccount(mockObject);
 		assertEquals(expectedAnswer, "{\"message\": \"the account has been deleted\"}");
 	}
-	
+
 }

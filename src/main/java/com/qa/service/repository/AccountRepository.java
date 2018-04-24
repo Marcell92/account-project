@@ -3,6 +3,7 @@ package com.qa.service.repository;
 import java.util.Collection;
 import java.util.List;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +16,8 @@ import com.qa.domain.Account;
 import com.qa.util.JSONUtil;
 
 @Transactional(SUPPORTS)
-public class AccountRepository {
+@Default
+public class AccountRepository implements AccountInterface {
 
 	@PersistenceContext(unitName = "primary") // the name we specified in the persistence file
 	private EntityManager em;
@@ -32,6 +34,7 @@ public class AccountRepository {
 	private JSONUtil jsonutil;
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public String findAllAccounts() {
 		Query query = em.createQuery("SELECT a FROM Account a ORDER BY a.firstname DESC");
 		Collection<Account> accounts = (Collection<Account>) query.getResultList();
@@ -45,6 +48,7 @@ public class AccountRepository {
 	}
 
 	@Transactional(REQUIRED)
+	@Override
 	public String deleteAnAccount(String account) {
 
 		Account existingAccount = jsonutil.getObjectForJSON(account, Account.class);
@@ -64,7 +68,8 @@ public class AccountRepository {
 	}
 
 	@Transactional(REQUIRED)
-	public String createAnAccount(Long id, String account) {
+	@Override
+	public String createAnAccount(String account) {
 
 		Account newAccount = jsonutil.getObjectForJSON(account, Account.class);
 
@@ -84,12 +89,13 @@ public class AccountRepository {
 	}
 
 	@Transactional(REQUIRED)
+	@Override
 	public String updateAnAccount(Long id, String account) {
 
-		Account updatedaccount = jsonutil.getObjectForJSON(account, Account.class);
+		Account accountToUpdate = jsonutil.getObjectForJSON(account, Account.class);
 		Account oldaccount = em.find(Account.class, id);
 
-		boolean itExists = updatedaccount != null;
+		boolean itExists = accountToUpdate != null;
 		if (itExists) {
 
 			em.merge(oldaccount);
