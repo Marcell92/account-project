@@ -1,6 +1,9 @@
 package com.qa.util;
 
+import java.util.Collection;
+
 import com.google.gson.Gson;
+import com.qa.domain.Account;
 
 public class JSONUtil {
 
@@ -16,6 +19,11 @@ public class JSONUtil {
 
 	public <T> T getObjectForJSON(String jsonString, Class<T> clazz) {
 		return gson.fromJson(jsonString, clazz);
+	}
+
+	public String getObjectForJSON(Collection<Account> values) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
