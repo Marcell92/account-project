@@ -76,16 +76,22 @@ public class TestRepo {
 		assertEquals(expectedAnswer, "{\"message\": \"the account doesn't exist so it couldn't be updated\"}");
 	}
 
+//	@Test
+//	public void testDeleteAccountFail() {
+//		String expectedAnswer = accountrepository.deleteAnAccountByAcc(null);
+//		assertEquals(expectedAnswer, "{\"message\": \"the account doesn't exist so it couldn't be deleted\"}");
+//	}
+//
+//	@Test
+//	public void testDeleteAccount() {
+//		String expectedAnswer = accountrepository.deleteAnAccountByAcc(mockObject);
+//		assertEquals(expectedAnswer, "{\"message\": \"the account has been deleted\"}");
+//	}
+
 	@Test
-	public void testDeleteAccountFail() {
-		String expectedAnswer = accountrepository.deleteAnAccount(null);
+	public void testDeleteAccountById() {
+		String expectedAnswer = accountrepository.deleteAnAccountByID(1L);
 		assertEquals(expectedAnswer, "{\"message\": \"the account doesn't exist so it couldn't be deleted\"}");
-	}
 
-	@Test
-	public void testDeleteAccount() {
-		String expectedAnswer = accountrepository.deleteAnAccount(mockObject);
-		assertEquals(expectedAnswer, "{\"message\": \"the account has been deleted\"}");
 	}
-
 }

@@ -49,10 +49,29 @@ public class AccountRepository implements AccountInterface {
 
 	@Transactional(REQUIRED)
 	@Override
-	public String deleteAnAccount(String account) {
+	public String deleteAnAccountByAcc(String account) {
 
 		Account existingAccount = jsonutil.getObjectForJSON(account, Account.class);
 
+		boolean itExists = existingAccount != null;
+
+		if (itExists) {
+			em.remove(existingAccount);
+
+			return "{\"message\": \"the account has been deleted\"}";
+		}
+
+		else {
+			return "{\"message\": \"the account doesn't exist so it couldn't be deleted\"}";
+		}
+
+	}
+	
+	@Transactional(REQUIRED)
+	@Override
+	public String deleteAnAccountByID(Long id) {
+		
+		Account existingAccount = findAnAccount(id);
 		boolean itExists = existingAccount != null;
 
 		if (itExists) {

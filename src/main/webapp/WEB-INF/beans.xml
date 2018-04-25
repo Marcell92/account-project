@@ -18,6 +18,6 @@
       http://xmlns.jcp.org/xml/ns/javaee
       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd" bean-discovery-mode="all">
     <alternatives>
-        <class>com.qa.service.repository.AccountMapInterface</class>
+        <class>com.qa.service.repository.AccountMapRepository</class>
     </alternatives>
 </beans>
